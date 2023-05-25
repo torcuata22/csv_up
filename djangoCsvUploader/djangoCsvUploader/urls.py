@@ -15,8 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+from mainApp.views import *
+from mainApp import views
+from django.urls import re_path as url
+
+router = routers.DefaultRouter()
+router.register('students', views.StudentsViewSet, basename='students')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls), name='api'),
+    url('^csv-uploader/$', CsvUploader.as_view(), name='csv-uploader' ),
 ]
